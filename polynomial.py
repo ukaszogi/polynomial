@@ -1,7 +1,18 @@
 class Polynomial:
+    """Polynomial is standard callable polynomial class. Saves coefficients in a vector, witch allows to easly make advanced libear algebra.
+
+    Parameters:
+        *coef (float): Tuple/list of coefficients a_n, a_n-1, ... , a_1, a_0
+        degree (uint): If given creates zeroed coefficients vector with certain degree
+
+    Returns:
+        Polynomial: Object of a Polynomial class
+    """
     def __init__(self, *coef, degree = -1):
         if (degree + 1):
             self.__coef = [0]*(degree+1)
+        elif len(coef) == 0:
+            self.__coef = [0]
         elif hasattr(coef[0], '__iter__'):
             self.__coef = list(coef[0])
         else:
@@ -52,3 +63,18 @@ class Polynomial:
                 for i in range(len(temp)):
                     self.__coef[i] += temp[i]
         return self
+
+    def __len__(self):
+        return(len(self.__coef))
+
+    def __getitem__(self, ind):
+        return(self.__coef[ind])
+    
+    def derivative(self, d=1):
+        coeff = self.__coef.copy()
+        while(d):
+            coeff.pop(0)
+            for i in range(1, len(coeff)):
+                coeff[~i] = coeff[~i]*(len(coeff)+ ~i)
+            d -= 1
+        return(Polynomial(coeff))
