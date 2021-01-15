@@ -1,4 +1,4 @@
-import matrix_handler as mh
+import matrix_handler as handler
 
 class Matrix:
     """Matrix (and vector) class.
@@ -13,16 +13,16 @@ class DerivativeMatrix(Matrix):
     def __mul__(self, w):
         if len(w) - 1:
             n = len(w)
-            matrix = mh.MatrixMake(n-1, n)
-            vector = mh.MatrixMake(n, 1)
+            matrix = handler.MatrixMake(n-1, n)
+            vector = handler.MatrixMake(n, 1)
             for i in range(1, n):
                 matrix[i-1][i] = i
                 vector[i][0] = w[i]
-            # mh.MatrixPrint(matrix)
+            # handler.MatrixPrint(matrix)
             self. size = (n-1, n)
-            mh.MatrixPrint(vector, "pętla")
-            mh.MatrixPrint(w.getVector(), "metoda")
-            return mh.MatrixMulti(matrix, vector)
+            handler.MatrixPrint(vector, "pętla")
+            handler.MatrixPrint(w.getVector(), "metoda")
+            return handler.MatrixMulti(matrix, vector)
         else:
             return [[0]]
 
