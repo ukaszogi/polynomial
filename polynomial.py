@@ -70,6 +70,12 @@ class Polynomial:
     def __getitem__(self, ind):
         return(self.__coef[ind])
     
+    def getVector(self):
+        vector = []
+        for coeff in self.__coef:
+            vector.append([coeff])
+        return vector
+
     def derivative(self, d=1):
         coeff = self.__coef.copy()
         while(d):
