@@ -19,7 +19,7 @@ class DerivativeMatrix(Matrix):
                 matrix[i-1][i] = i
                 vector[i][0] = w[i]
             # handler.MatrixPrint(matrix)
-            self. size = (n-1, n)
+            self.size = (n-1, n)
             handler.MatrixPrint(vector, "pętla")
             handler.MatrixPrint(w.getVector(), "metoda")
             return handler.MatrixMulti(matrix, vector)
