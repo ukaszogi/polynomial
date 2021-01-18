@@ -1,3 +1,5 @@
+from matrices import Matrix
+
 class Polynomial:
     """Polynomial is standard callable polynomial class. Saves coefficients in a vector, witch allows to easly make advanced libear algebra.
 

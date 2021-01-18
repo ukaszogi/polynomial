@@ -19,4 +19,5 @@ tester = W.copy()
 Wprim = W.derivative()
 print(Wprim)
 
-handler.MatrixPrint(DerivativeMatrix() * W)
+M = Matrix([[1],[-5],[6]])
+print(M[1])
