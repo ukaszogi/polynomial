@@ -1,5 +1,5 @@
-from polynomial import *
-from matrices import *
+from polynomial_old import *
+from matrices_old import *
 
 W = Polynomial(1, -5, 6)
 G = Polynomial(*[1,2,3])
@@ -19,5 +19,4 @@ tester = W.copy()
 Wprim = W.derivative()
 print(Wprim)
 
-M = Matrix([[1],[-5],[6]])
-print(M[1])
+print(DerivativeMatrix() * W)

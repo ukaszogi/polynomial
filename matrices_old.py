@@ -28,7 +28,21 @@ class Matrix:
         return(self.__vals[ind[0]][ind[1]])
 
 class DerivativeMatrix(Matrix):
-    pass
+    def __mul__(self, w):
+        if len(w) - 1:
+            n = len(w)
+            matrix = handler.MatrixMake(n-1, n)
+            vector = handler.MatrixMake(n, 1)
+            for i in range(1, n):
+                matrix[i-1][i] = i
+                vector[i][0] = w[i]
+            # handler.MatrixPrint(matrix)
+            self.size = (n-1, n)
+            handler.MatrixPrint(vector, "pętla")
+            handler.MatrixPrint(w.getVector(), "metoda")
+            return handler.MatrixMulti(matrix, vector)
+        else:
+            return [[0]]
 
 class IdentityMatrix(Matrix):
     pass
