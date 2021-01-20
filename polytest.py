@@ -1,5 +1,12 @@
 from polynomial import *
 
+global sec_num
+sec_num = 1
+def section(name):
+    global sec_num
+    print(f'--------======|||======--------\n{sec_num}.\t{name}\n')
+    sec_num+=1
+
 a = np.array([[1],[2],[3]])
 b = np.array([[1,2,3]])
 c = np.array([1,2,3], ndmin=2).T
@@ -11,8 +18,21 @@ print(a@b)
 print(b@a)
 print(c)
 print(c[:, 0])
-print(np.linspace(1,c.shape[0]-1,num=c.shape[0]-1))
-print((c[::-1,0])[1:] * np.linspace(1,c.shape[0]-1,num=c.shape[0]-1))
+print((c[::-1,0])[1:])
+print(np.array(range(1,len(c)))[::-1])
+
+section('Derivative testing')
+
+c = np.array([1,2,3,4,5], ndmin=2).T
+print(c)
+print(c[:, 0])
+print(c[:, 0][:-1])
+print(np.array(range(1,len(c)))[::-1])
+print(c[:, 0][:-1] * np.array(range(1,len(c)))[::-1])
+print(np.array(c[:, 0][:-1] * np.array(range(1,len(c)))[::-1], ndmin=2).T)
+# prim.__coef = np.array(((self.__coef[::-1,0])[1:] * np.array(range(1,len(self.__coef))))[::-1], ndmin=2).T
+
+section('Derivatives')
 
 W = Polynomial(1, -5, 6)
 zero = Polynomial(degree=2)
