@@ -41,3 +41,6 @@ print(W(2))
 print(zero)
 print(W.derivative())
 print(W.derivative(d=2))
+
+W.plot()
+W.derivative().plot()
