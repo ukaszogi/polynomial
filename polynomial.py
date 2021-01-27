@@ -69,3 +69,45 @@ class Polynomial:
         y = self.__call__(x)
         plt.plot(x, y)
         plt.show()
+    
+    def rootNewtown(self, x=0, tolerance=0.00000001):
+        """Newton's method of root finding
+
+        Polynomial must have contionous derivative. This works only for polynomial of a degree above 0 (so 1 and greater).
+
+        Args:
+            x (float, optional): strating value of x. Function usually returns closest root to x. Defaults to 0.
+            tolerance (float, optional): tolerance of algorythm. Since polynomials are continous, algorythm is destinded to work continously, thus tolerance is used to terminate it early. Defaults to 0.00000001.
+
+        Returns:
+            float: root of the Polynomial
+        """
+        t = tolerance+1
+        while t > tolerance:
+            x1 = x - self.__call__(x) / self.derivative().__call__(x)
+            t = abs(x1 - x)
+            x = x1
+        return x
+    
+    def rootHalley(self, x=0, tolerance=0.00000001):
+        """Halley's method of root finding
+
+        Polynomial must have contionous second derivative. This works only for polynomial of a degree above 1 (so 2 and greater).
+
+        Args:
+            x (float, optional): strating value of x. Function usually returns closest root to x. Defaults to 0.
+            tolerance (float, optional): tolerance of algorythm. Since polynomials are continous, algorythm is destinded to work continously, thus tolerance is used to terminate it early. Defaults to 0.00000001.
+
+        Returns:
+            float: root of the Polynomial
+        """
+        t = tolerance+1
+        f = lambda x: self.__call__(x)
+        fprim = lambda x: self.derivative().__call__(x)
+        fbis = lambda x: self.derivative(2).__call__(x)
+        while t > tolerance:
+            x1 = x - (2*f(x) * fprim(x)) / (2 * (fprim(x))**2 - f(x)*fbis(x))
+            t = abs(x1 - x)
+            x = x1
+        return x
+

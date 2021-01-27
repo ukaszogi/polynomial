@@ -42,5 +42,14 @@ print(zero)
 print(W.derivative())
 print(W.derivative(d=2))
 
-W.plot()
-W.derivative().plot()
+# W.plot()
+# W.derivative().plot()
+
+Big = Polynomial(-1/5, -4/5, 7/5, 0, 1/5, 8)
+print(Big)
+# Big.plot()
+
+print(W.rootNewtown(6))
+print(Big(2))
+print(Big.rootHalley(6))
+print(Big(2.0159798079799884))
