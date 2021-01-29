@@ -80,7 +80,7 @@ class Polynomial:
             tolerance (float, optional): tolerance of algorythm. Since polynomials are continous, algorythm is destinded to work continously, thus tolerance is used to terminate it early. Defaults to 0.00000001.
 
         Returns:
-            float: root of the Polynomial
+            float: approximated root of the Polynomial
         """
         t = tolerance+1
         while t > tolerance:
@@ -99,7 +99,7 @@ class Polynomial:
             tolerance (float, optional): tolerance of algorythm. Since polynomials are continous, algorythm is destinded to work continously, thus tolerance is used to terminate it early. Defaults to 0.00000001.
 
         Returns:
-            float: root of the Polynomial
+            float: approximated root of the Polynomial
         """
         t = tolerance+1
         f = lambda x: self.__call__(x)
