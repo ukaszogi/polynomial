@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class Polynomial:
-    """Polynomial is standard callable polynomial class. Saves coefficients in a NumPy array, witch allows to easly make advanced libear algebra.
+    """Polynomial is standard callable polynomial class. Saves coefficients in a NumPy array, witch allows to easly make advanced linear algebra.
     
     Args:
         *coeff (float): Coefficients a_n, a_n-1, ... , a_1, a_0
@@ -32,6 +32,12 @@ class Polynomial:
             y *= x
             y += coeff
         return y
+
+    def __add__(a, b): # since naming isn't obligatory, a named how i please
+        c = Polynomial()
+        m = max(a.__coef.size, b.__coef.size)
+        c.__coef = np.pad(a.__coef, (m-a.__coef.size,0))[0:, -1:] + np.pad(b.__coef, (m-b.__coef.size,0))[0:, -1:]
+        return c
     
     def getArray(self):
         """Access to coefficients vector 
@@ -110,4 +116,3 @@ class Polynomial:
             t = abs(x1 - x)
             x = x1
         return x
-

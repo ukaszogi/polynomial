@@ -58,3 +58,19 @@ wsm = Polynomial(1,2,1)
 # wsm.plot()
 print(wsm(2))
 print(wsm.rootNewtown())
+
+# print(W+wsm)
+
+# print( np.reshape(np.reshape(np.array([1,2,3]), (3,1)), (4,1)))
+
+q = np.reshape(np.array([1,2,3]), (3,1))
+w = np.reshape(np.array([1,2,3,4]), (4,1))
+
+print(np.pad(q, (max(q.size, w.size)-q.size,0))[0:, -1:])
+print(np.pad(w, (max(q.size, w.size)-w.size,0))[0:, -1:])
+print(
+    np.pad(q, (max(q.size, w.size)-q.size,0))[0:, -1:] +
+    np.pad(w, (max(q.size, w.size)-w.size,0))[0:, -1:]
+)
+
+print(Polynomial(1,2) + Polynomial(2,1,3))
