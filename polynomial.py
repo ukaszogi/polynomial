@@ -33,11 +33,16 @@ class Polynomial:
             y += coeff
         return y
 
-    def __add__(a, b): # since naming isn't obligatory, a named how i please
+    def __add__(a, b): # since naming isn't obligatory, i named how i please
         c = Polynomial()
         m = max(a.__coef.size, b.__coef.size)
         c.__coef = np.pad(a.__coef, (m-a.__coef.size,0))[0:, -1:] + np.pad(b.__coef, (m-b.__coef.size,0))[0:, -1:]
         return c
+    
+    def __mul__(a, k):
+        b = Polynomial()
+        b.__coef *= k
+        return b
     
     def getArray(self):
         """Access to coefficients vector 
@@ -112,7 +117,7 @@ class Polynomial:
         fprim = lambda x: self.derivative().__call__(x)
         fbis = lambda x: self.derivative(2).__call__(x)
         while t > tolerance:
-            x1 = x - (2*f(x) * fprim(x)) / (2 * (fprim(x))**2 - f(x)*fbis(x))
+            x1 = x - (2 * f(x) * fprim(x)) / (2 * (fprim(x))**2 - f(x)*fbis(x))
             t = abs(x1 - x)
             x = x1
         return x

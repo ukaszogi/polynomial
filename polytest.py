@@ -74,3 +74,5 @@ print(
 )
 
 print(Polynomial(1,2) + Polynomial(2,1,3))
+
+print((Polynomial(1,2,3,4) * 2))
