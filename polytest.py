@@ -76,3 +76,27 @@ print(
 print(Polynomial(1,2) + Polynomial(2,1,3))
 
 print((Polynomial(1,2,3,4) * 2))
+
+section("Integral testing")
+
+print(Polynomial(1,0,0).integralRiemman(0,1))
+
+# 1x^2 + 0x + 0 
+# 1/3(x^3) + 0x^2 + 0x + 0
+# ax^n => a/n+1(x^n+1)
+# [a,b,c] => [a/3, b/2, c, 0]
+# ([3, 2, 1 :: c])/[3, 2 ,1 ,1] = 1, 1, 1, c
+# ()/ np.array(range(1, len(j)))
+co = np.array([[3],[2],[1]])
+# print(len(co))
+j = co[:,0]
+# print(j)
+c = 4
+j = np.append(co[:,0], c)
+# print(j)
+i = np.append([1],np.array(range(1, len(j))))
+# print(i)
+i = i[::-1]
+print(np.array(j/i,ndmin=2).T)
+
+print(Polynomial(3,2,1).integral(4))

@@ -59,7 +59,7 @@ class Polynomial:
             d (int, optional): order of derivative (recc.). Defaults to 1.
         
         Returns:
-            Polynomial: the derivative of the polynomial
+            Polynomial: the derivative of a polynomial
         """
         prim = Polynomial()
         prim.__coef = np.array(self.__coef[:, 0][:-1] * np.array(range(1,len(self.__coef)))[::-1], ndmin=2).T # wut
@@ -68,12 +68,58 @@ class Polynomial:
         else:
             return prim
 
+    def integral(self, c=0):
+        """Integral of a polynomial (antiderivative).
+
+        Args:
+            c (float, optional): constant of integration. Defaults to 0.
+        
+        Returns:
+            Polynomial: the antiderivative of a polynomial
+        """
+        intl = Polynomial()
+        intl.__coef = np.array(np.append(self.__coef[:,0], c) / np.append([1],np.array(range(1, len(self.__coef)+1)))[::-1], ndmin=2).T # wut v2
+        return intl
+
+    def defIntegral(self, a, b):
+        """Definite integral numeric value calculated using Newton-Leibniz theorem.
+
+        Args:
+            a (float): lower bound of the integral
+            b (float): upper bound of the integral
+
+        Returns:
+            float: numeric value of a integral
+        """
+        intl = self.integral()
+        return intl(b) - intl(a)
+
+    def integralRiemman(self,a,b,c=1000):
+        """Numeric integral using rectangles method
+
+        It's very bad. I highly advise not using it. Please use defIntegral
+
+        Args:
+            a (float): lower bound of the integral
+            b (float): upper bound of the integral
+            c (int, optional): sample size density. NUmber of sumples per 1 unit. Defaults to 1000000.
+        
+        Returns:
+            float: numeric value of a integral
+        """
+        samples = (b-a)*c
+        w = 0
+        for i in range(samples):
+            w += self.__call__(i*(b-a)/samples + a) 
+        w *= (b-a)/samples
+        return w
+
     def plot(self, sub = -10, sup = 10, num = 200):
         """Plots and shows polynomial in real-time usig matplotlib
 
         Args:
-            sub (int, optional): Start of domain. copy of start parameter in linspace. Defaults to -10.
-            sup (int, optional): End of domain. copy of stop parameter in linspace. Defaults to 10.
+            sub (float, optional): Start of domain. copy of start parameter in linspace. Defaults to -10.
+            sup (float, optional): End of domain. copy of stop parameter in linspace. Defaults to 10.
             num (int, optional): Sample size. Copy of num parameter in linspace. Defaults to 200.
         """
         x = np.linspace(sub,sup,num)
@@ -91,7 +137,7 @@ class Polynomial:
             tolerance (float, optional): tolerance of algorythm. Since polynomials are continous, algorythm is destinded to work continously, thus tolerance is used to terminate it early. Defaults to 0.00000001.
 
         Returns:
-            float: approximated root of the Polynomial
+            float: approximated root of a polynomial
         """
         t = tolerance+1
         while t > tolerance:
@@ -110,7 +156,7 @@ class Polynomial:
             tolerance (float, optional): tolerance of algorythm. Since polynomials are continous, algorythm is destinded to work continously, thus tolerance is used to terminate it early. Defaults to 0.00000001.
 
         Returns:
-            float: approximated root of the Polynomial
+            float: approximated root of a polynomial
         """
         t = tolerance+1
         f = lambda x: self.__call__(x)
