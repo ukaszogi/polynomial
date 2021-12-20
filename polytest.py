@@ -1,11 +1,10 @@
 from polynomial import *
 
-global sec_num
-sec_num = 1
-def section(name):
-    global sec_num
-    print(f'--------======|||======--------\n{sec_num}.\t{name}\n')
-    sec_num+=1
+class section:
+    sec_num = 1
+    def __init__(this, name):
+        print(f'--------======|||======--------\n{section.sec_num}.\t{name}\n')
+        section.sec_num+=1
 
 a = np.array([[1],[2],[3]])
 b = np.array([[1,2,3]])
@@ -48,6 +47,8 @@ print(W.derivative(d=2))
 Big = Polynomial(-1, -4, 7, 0, 1, 40)
 print(Big)
 # Big.plot()
+
+section("Root finding")
 
 print(W.rootNewtown(6))
 print(Big(2))
@@ -100,3 +101,7 @@ i = i[::-1]
 print(np.array(j/i,ndmin=2).T)
 
 print(Polynomial(3,2,1).integral(4))
+
+section('Exceptions')
+
+wsm.rootHausholder(3)

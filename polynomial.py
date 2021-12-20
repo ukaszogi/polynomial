@@ -6,7 +6,7 @@ class Polynomial:
     
     Args:
         *coeff (float): Coefficients a_n, a_n-1, ... , a_1, a_0
-        degree (uint): If given creates zeroed coefficients vector with certain degree
+        degree (uint): If given creates zeroed coefficients vector with certain length (degree)
     
     Returns:
         Polynomial: Object of a Polynomial class
@@ -128,7 +128,7 @@ class Polynomial:
         plt.show()
     
     def rootNewtown(self, x=0, tolerance=0.00000001):
-        """Newton's method of root finding
+        """Newton's method of root-finding
 
         Polynomial must have contionous derivative. This works only for polynomial of a degree above 0 (so 1 and greater).
 
@@ -147,7 +147,7 @@ class Polynomial:
         return x
     
     def rootHalley(self, x=0, tolerance=0.00000001):
-        """Halley's method of root finding
+        """Halley's method of root-finding
 
         Polynomial must have contionous second derivative. This works only for polynomial of a degree above 1 (so 2 and greater).
 
@@ -167,3 +167,21 @@ class Polynomial:
             t = abs(x1 - x)
             x = x1
         return x
+    
+    def rootHausholder(self, d, x=0, tolerance=0.00000001):
+        """Hausholder method of root-finding
+        
+        Polynomial must have contionous d-th derivative. This works only for polynomial of a degree above d-1 (so d and greater).
+
+        Args:
+            x (int, optional): strating value of x. Function usually returns closest root to x. Defaults to 0.
+            d (int): maximal order of derivative (order of convergance).
+            tolerance (float, optional): tolerance of algorythm. Since polynomials are continous, algorythm is destinded to work continously, thus tolerance is used to terminate it early. Defaults to 0.00000001.
+        
+        Returns:
+            float: approximated root of a polynomial
+        """
+        '''
+        x_{n+1} = x_n + d\frac{{1/f}^{(d-1)}(x_n)}{{1/f}^{(d)}(x_n)}
+        '''
+        raise Exception("Function 'rootHausholder' is not complete. Use 'rootNewtown' or 'rootHalley'")
