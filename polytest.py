@@ -104,4 +104,7 @@ print(Polynomial(3,2,1).integral(4))
 
 section('Exceptions')
 
-wsm.rootHausholder(3)
+try:
+    wsm.rootHausholder(3)
+except Exception as exc:
+    print(exc)
