@@ -27,6 +27,14 @@ class Polynomial:
         return s
     
     def __call__(self, x):
+        """Horner's method
+
+        Args:
+            x (float): argument
+
+        Returns:
+            float: value
+        """
         y = 0
         for coeff in self.__coef[:, 0]:
             y *= x

@@ -1,3 +1,4 @@
+from numpy.lib.utils import safe_eval
 from polynomial import *
 
 class section:
@@ -108,3 +109,8 @@ try:
     wsm.rootHausholder(3)
 except Exception as exc:
     print(exc)
+
+
+section('No section')
+
+print(Polynomial(1,2,3,4).getArray())
