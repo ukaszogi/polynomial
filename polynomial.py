@@ -1,4 +1,5 @@
 import numpy as np
+from typing import Union, overload
 import matplotlib.pyplot as plt
 
 class Polynomial:
@@ -6,18 +7,30 @@ class Polynomial:
     
     Args:
         *coeff (float): Coefficients a_n, a_n-1, ... , a_1, a_0
-        degree (uint): If given creates zeroed coefficients vector with certain length (degree)
+        order (uint): If given creates zeroed coefficients vector with certain length (order)
     
     Returns:
         Polynomial: Object of a Polynomial class
     """
-    def __init__(self, *coeff, degree=-1):
-        if degree:=degree+1:
-            self.__coef = np.array([0]*(degree), dtype=float, ndmin=2).T
+    def __init__(self, *coeff, order=-1):
+        if order:=order+1:
+            self.__coef = np.array([0]*(order), dtype=float, ndmin=2).T
         elif len(coeff) == 0:
             self.__coef = np.array([[0.]])
         else:
             self.__coef = np.array(coeff, dtype=float, ndmin=2).T
+        
+    @property
+    def o(self):
+        """Current order of an polynomial. This does call refract method (all leading zeroes will be trimmed).
+
+        Returns:
+            int: order
+        """
+        self.refract()
+        return len(self.__coef)-1
+
+    # TODO: add order setter (np.pad and what not)
         
     def __str__(self):
         s = ''
@@ -26,7 +39,7 @@ class Polynomial:
         s +=  str(self.__coef[len(self.__coef)-1, 0])
         return s
     
-    def __call__(self, x):
+    def __call__(self, x) -> float:
         """Horner's method
 
         Args:
@@ -47,16 +60,29 @@ class Polynomial:
         c.__coef = np.pad(a.__coef, (m-a.__coef.size,0))[0:, -1:] + np.pad(b.__coef, (m-b.__coef.size,0))[0:, -1:]
         return c
     
-    def __mul__(a, k):
+    # @overload  
+    def __mul__(a, k: Union[int, float]):
         b = Polynomial()
-        b.__coef *= k
+        b.__coef = a.__coef.copy()*k
         return b
-    
+
+    def __pow__(a, b: 'Polynomial'): # this should be __mul__, but clearly isn't. to many issues with overload
+        c = Polynomial()
+        a_c = a.getArray()[:, 0]
+        b_c = b.getArray()[:, 0]
+        c.__coef = np.array(np.polymul(b_c, a_c), dtype=float, ndmin=2).T
+        return c
+
+    def refract(self):
+        """Really complitated name for deleting leading zeroes
+        """
+        self.__coef = np.array(np.trim_zeros(self.__coef[:, 0], 'f'), dtype=float, ndmin=2).T
+
     def getArray(self):
         """Access to coefficients vector 
         
         Returns:
-            ndarray: array vector of coefficients, shape (degree, n)
+            ndarray: array vector of coefficients, shape (order, n)
         """
         return self.__coef.copy()
     
@@ -70,11 +96,9 @@ class Polynomial:
             Polynomial: the derivative of a polynomial
         """
         prim = Polynomial()
-        prim.__coef = np.array(self.__coef[:, 0][:-1] * np.array(range(1,len(self.__coef)))[::-1], ndmin=2).T # wut
-        if d > 1:
-            return prim.derivative(d = d-1)
-        else:
-            return prim
+        for _ in range(d):
+            prim.__coef = np.array(self.__coef[:, 0][:-1] * np.array(range(1,len(self.__coef)))[::-1], ndmin=2).T # wut
+        return prim
 
     def integral(self, c=0):
         """Integral of a polynomial (antiderivative).
@@ -138,7 +162,7 @@ class Polynomial:
     def rootNewtown(self, x=0, tolerance=0.00000001):
         """Newton's method of root-finding
 
-        Polynomial must have contionous derivative. This works only for polynomial of a degree above 0 (so 1 and greater).
+        Polynomial must have contionous derivative. This works only for polynomial of a order above 0 (so 1 and greater).
 
         Args:
             x (float, optional): strating value of x. Function usually returns closest root to x. Defaults to 0.
@@ -157,7 +181,7 @@ class Polynomial:
     def rootHalley(self, x=0, tolerance=0.00000001):
         """Halley's method of root-finding
 
-        Polynomial must have contionous second derivative. This works only for polynomial of a degree above 1 (so 2 and greater).
+        Polynomial must have contionous second derivative. This works only for polynomial of a order above 1 (so 2 and greater).
 
         Args:
             x (float, optional): strating value of x. Function usually returns closest root to x. Defaults to 0.
@@ -179,7 +203,7 @@ class Polynomial:
     def rootHausholder(self, d, x=0, tolerance=0.00000001):
         """Hausholder method of root-finding
         
-        Polynomial must have contionous d-th derivative. This works only for polynomial of a degree above d-1 (so d and greater).
+        Polynomial must have contionous d-th derivative. This works only for polynomial of a order above d-1 (so d and greater).
 
         Args:
             x (int, optional): strating value of x. Function usually returns closest root to x. Defaults to 0.
@@ -193,3 +217,16 @@ class Polynomial:
         x_{n+1} = x_n + d\frac{{1/f}^{(d-1)}(x_n)}{{1/f}^{(d)}(x_n)}
         '''
         raise Exception("Function 'rootHausholder' is not complete. Use 'rootNewtown' or 'rootHalley'")
+
+    def interpolateLagrange(points):
+        pass
+        # w = Polynomial()
+        # '''
+        # w = \sum_{i=0}^ny_il_{n,i}(x)
+        # l_{n,i} = \prod_{j\neq i}\frac{x-x_j}{x_i-x_j}
+        # '''
+        # n = len(points)
+        # l = []
+        # for i in range(n):
+        #     for j in range(n):
+        # return w

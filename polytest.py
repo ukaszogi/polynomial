@@ -35,7 +35,7 @@ print(np.array(c[:, 0][:-1] * np.array(range(1,len(c)))[::-1], ndmin=2).T)
 section('Derivatives')
 
 W = Polynomial(1, -5, 6)
-zero = Polynomial(degree=2)
+zero = Polynomial(order=2)
 print(W)
 print(W(2))
 print(zero)
@@ -111,6 +111,39 @@ except Exception as exc:
     print(exc)
 
 
+section('interpolation')
+
+pointsDict = { # set of points for y = (x+3)(x+2)
+    1: 12,
+    -1: 2,
+    3: 30,
+    0: 6
+}
+print(pointsDict)
+for (x, y) in pointsDict.items():
+    print(x, y)
+
+pointsList = [6, 12]
+# for (x, y) in pointsList.items():
+#     print(x, y)
+
+tabXY = [
+    [1, 12],
+    [-1, 2],
+    [3, 30],
+    [0, 6]
+]
+for (x, y) in tabXY:
+    print(x, y)
+
+
+
 section('No section')
 
 print(Polynomial(1,2,3,4).getArray())
+print(Polynomial(1,2,3)*2.5)
+print((Polynomial(1,2,3)+Polynomial(order=45)).o)
+print(np.convolve([1,2][::-1],[1,2,3]))# (1+2x)(1+2x+3x2)=(1+4x+)
+print(Polynomial(1,2)*2)
+print(Polynomial(1,2)*Polynomial(1,2,3))
+print(Polynomial(1,2,3)*Polynomial(1,2))
