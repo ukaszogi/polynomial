@@ -30,7 +30,7 @@ For the ease of use, program stores coeffixients in reversed order. This has bot
 
 ### Zeroed polynomials
 
-Polynomials with zeroed coefficients vector ($\vec{c}=0\Rightarrow \vec c \cdot \vec x = 0\cdot \vec x = 0$). This polynomial still has a degree, so it can be used in arithmetics.
+Polynomials with zeroed coefficients vector ($\vec{c}=0\Rightarrow \vec c \cdot \vec x = 0\cdot \vec x = 0$). This polynomial still has an order, so it can be used in arithmetics.
 > This solution for zeroed polynomial arythmetics is not the final one will be deprecated.
 
 ## Abstract polynomials
