@@ -158,7 +158,11 @@ print(2-Polynomial(12,3))
 
 section("interpolation")
 
-a = Polynomial().interpolateLagrange([[2, 3], [6, 0]])
+a = Polynomial().interpolateLagrange([[2, 30], [6, 0], [-3, 0]])
 print(a)
 print(a(2))
 print(a(6))
+a.plot()
+print(a.rootNewtown())
+b=(a / Polynomial(1,3))
+print(b[0])

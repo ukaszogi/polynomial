@@ -107,8 +107,8 @@ class Polynomial:
             d = Polynomial()
             a_c = a.getArray()[:, 0]
             b_c = b.getArray()[:, 0]
-            c.__coef = np.array(np.polydiv(b_c, a_c)[0], dtype=float, ndmin=2).T
-            d.__coef = np.array(np.polydiv(b_c, a_c)[1], dtype=float, ndmin=2).T
+            c.__coef = np.array(np.polydiv(a_c, b_c)[0], dtype=float, ndmin=2).T
+            d.__coef = np.array(np.polydiv(a_c, b_c)[1], dtype=float, ndmin=2).T
             return c, d
         else:
             raise TypeError(f"Unknown operation for type {type(k)}")
@@ -259,6 +259,9 @@ class Polynomial:
         x_{n+1} = x_n + d\frac{{1/f}^{(d-1)}(x_n)}{{1/f}^{(d)}(x_n)}
         '''
         raise Exception("Function 'rootHausholder' is not complete. Use 'rootNewtown' or 'rootHalley'")
+    
+    def solve(self):
+        pass
 
     def interpolateLagrange(self, points: List[Tuple[Union[int, float], Union[int, float]]]):
         """Creates Lagrange interpolation polynomial with given set of pairs of points
