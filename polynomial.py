@@ -1,5 +1,5 @@
 import numpy as np
-from typing import Union, overload
+from typing import List, Tuple, Union
 import matplotlib.pyplot as plt
 
 class Polynomial:
@@ -54,24 +54,66 @@ class Polynomial:
             y += coeff
         return y
 
-    def __add__(a, b): # since naming isn't obligatory, i named how i please
+    def __add__(a, b):
         c = Polynomial()
-        m = max(a.__coef.size, b.__coef.size)
-        c.__coef = np.pad(a.__coef, (m-a.__coef.size,0))[0:, -1:] + np.pad(b.__coef, (m-b.__coef.size,0))[0:, -1:]
+        if isinstance(b, (int, float)):
+            c.__coef = a.__coef.copy()
+            c.__coef[-1,0]+=b
+        elif isinstance(b, Polynomial):
+            m = max(a.__coef.size, b.__coef.size)
+            c.__coef = np.pad(a.__coef, (m-a.__coef.size,0))[0:, -1:] + np.pad(b.__coef, (m-b.__coef.size,0))[0:, -1:]
+        else:
+            raise TypeError(f"Unknown operation for type {type(b)}")
         return c
     
-    # @overload  
-    def __mul__(a, k: Union[int, float]):
+    __radd__ = __add__
+
+    def __neg__(a):
         b = Polynomial()
-        b.__coef = a.__coef.copy()*k
+        b.__coef = a.__coef*-1
         return b
 
-    def __pow__(a, b: 'Polynomial'): # this should be __mul__, but clearly isn't. to many issues with overload
-        c = Polynomial()
-        a_c = a.getArray()[:, 0]
-        b_c = b.getArray()[:, 0]
-        c.__coef = np.array(np.polymul(b_c, a_c), dtype=float, ndmin=2).T
-        return c
+    def __sub__(a, b):
+        return a+(-b)
+
+    def __rsub__(a, b):
+        return -(a-b)
+         
+    def __mul__(a, k):
+        if isinstance(k, (int, float)):
+            b = Polynomial()
+            b.__coef = a.__coef.copy()*k
+            return b
+        elif isinstance(k, Polynomial):
+            b = k
+            c = Polynomial()
+            a_c = a.getArray()[:, 0]
+            b_c = b.getArray()[:, 0]
+            c.__coef = np.array(np.polymul(b_c, a_c), dtype=float, ndmin=2).T
+            return c
+        else:
+            raise TypeError(f"Unknown operation for type {type(k)}")
+
+    __rmul__ = __mul__
+
+    def __truediv__(a,k):
+        if isinstance(k, (int, float)):
+            b = Polynomial()
+            b.__coef=a.__coef.copy()/k
+            return b
+        elif isinstance(k, Polynomial):
+            b = k
+            c = Polynomial()
+            d = Polynomial()
+            a_c = a.getArray()[:, 0]
+            b_c = b.getArray()[:, 0]
+            c.__coef = np.array(np.polydiv(b_c, a_c)[0], dtype=float, ndmin=2).T
+            d.__coef = np.array(np.polydiv(b_c, a_c)[1], dtype=float, ndmin=2).T
+            return c, d
+        else:
+            raise TypeError(f"Unknown operation for type {type(k)}")
+
+    __div__ = __truediv__
 
     def refract(self):
         """Really complitated name for deleting leading zeroes
@@ -218,15 +260,30 @@ class Polynomial:
         '''
         raise Exception("Function 'rootHausholder' is not complete. Use 'rootNewtown' or 'rootHalley'")
 
-    def interpolateLagrange(points):
-        pass
-        # w = Polynomial()
-        # '''
-        # w = \sum_{i=0}^ny_il_{n,i}(x)
-        # l_{n,i} = \prod_{j\neq i}\frac{x-x_j}{x_i-x_j}
-        # '''
-        # n = len(points)
-        # l = []
-        # for i in range(n):
-        #     for j in range(n):
-        # return w
+    def interpolateLagrange(self, points: List[Tuple[Union[int, float], Union[int, float]]]):
+        """Creates Lagrange interpolation polynomial with given set of pairs of points
+
+        Args:
+            points (List[Tuple[Union[int, float], Union[int, float]]]): Set of points presented in a specific way
+
+        Returns:
+            Polynomial: interpolation polynomial
+
+        points is structured like this
+        >>> points = [
+            [x_1, y_1],
+            [x_2, y_2],
+                ...
+            [x_n, y_n]
+        ]
+        and will result in polynomial of n-th order.
+        """
+        w = Polynomial()
+        for i in range(len(points)):
+            li = Polynomial(1)
+            for j in range(len(points)):
+                if i==j:
+                    continue
+                li *= Polynomial(1,-points[j][0]) / (points[i][0]-points[j][0])
+            w += li*points[i][1]
+        return w

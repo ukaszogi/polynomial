@@ -138,12 +138,27 @@ for (x, y) in tabXY:
 
 
 
-section('No section')
+section('No section?')
 
 print(Polynomial(1,2,3,4).getArray())
 print(Polynomial(1,2,3)*2.5)
 print((Polynomial(1,2,3)+Polynomial(order=45)).o)
 print(np.convolve([1,2][::-1],[1,2,3]))# (1+2x)(1+2x+3x2)=(1+4x+)
 print(Polynomial(1,2)*2)
-print(Polynomial(1,2)**Polynomial(1,2,3))
-print(Polynomial(1,2,3)**Polynomial(1,2))
+print(Polynomial(1,2)*Polynomial(1,2,3))
+print(Polynomial(1,2,3)*Polynomial(1,2))
+
+Polynomial(1,2,3)
+
+print(2*Polynomial(12,3))
+print(Polynomial(10, 2)-1)
+print(-Polynomial(1,2,3))
+print(Polynomial(10, 2)-Polynomial(12,3))
+print(2-Polynomial(12,3))
+
+section("interpolation")
+
+a = Polynomial().interpolateLagrange([[2, 3], [6, 0]])
+print(a)
+print(a(2))
+print(a(6))
