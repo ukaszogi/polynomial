@@ -107,8 +107,9 @@ class Polynomial:
             d = Polynomial()
             a_c = a.getArray()[:, 0]
             b_c = b.getArray()[:, 0]
-            c.__coef = np.array(np.polydiv(a_c, b_c)[0], dtype=float, ndmin=2).T
-            d.__coef = np.array(np.polydiv(a_c, b_c)[1], dtype=float, ndmin=2).T
+            temp = np.polydiv(a_c, b_c)
+            c.__coef = np.array(temp[0], dtype=float, ndmin=2).T
+            d.__coef = np.array(temp[1], dtype=float, ndmin=2).T
             return c, d
         else:
             raise TypeError(f"Unknown operation for type {type(k)}")
@@ -201,7 +202,7 @@ class Polynomial:
         plt.plot(x, y)
         plt.show()
     
-    def rootNewtown(self, x=0, tolerance=0.00000001):
+    def rootNewtown(self, x=0, tolerance=0.00000001) -> float:
         """Newton's method of root-finding
 
         Polynomial must have contionous derivative. This works only for polynomial of a order above 0 (so 1 and greater).
@@ -220,7 +221,7 @@ class Polynomial:
             x = x1
         return x
     
-    def rootHalley(self, x=0, tolerance=0.00000001):
+    def rootHalley(self, x=0, tolerance=0.00000001) -> float:
         """Halley's method of root-finding
 
         Polynomial must have contionous second derivative. This works only for polynomial of a order above 1 (so 2 and greater).
@@ -260,9 +261,24 @@ class Polynomial:
         '''
         raise Exception("Function 'rootHausholder' is not complete. Use 'rootNewtown' or 'rootHalley'")
     
-    def solve(self):
-        pass
+    def solve(self, tolerance=0.00000001):
+        """Solving polynomial. Returning set of roots
 
+        Args:
+            tolerance (float, optional): tolerance of algorythm. Since polynomials are continous, algorythm is destinded to work continously, thus tolerance is used to terminate it early. Defaults to 0.00000001.
+
+        Returns:
+            List[float]: Roots
+        """
+        if self.o == 0:
+            return []
+        rr = []
+        x = self.rootNewtown(tolerance=tolerance)
+        rr.append(x)
+        y = self/Polynomial(1, -x)
+        rr.extend(y[0].solve(tolerance=tolerance))
+        return rr
+        
     def interpolateLagrange(self, points: List[Tuple[Union[int, float], Union[int, float]]]):
         """Creates Lagrange interpolation polynomial with given set of pairs of points
 

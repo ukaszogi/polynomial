@@ -1,4 +1,3 @@
-from numpy.lib.utils import safe_eval
 from polynomial import *
 
 class section:
@@ -162,7 +161,13 @@ a = Polynomial().interpolateLagrange([[2, 30], [6, 0], [-3, 0]])
 print(a)
 print(a(2))
 print(a(6))
-a.plot()
+# a.plot()
 print(a.rootNewtown())
 b=(a / Polynomial(1,3))
 print(b[0])
+
+section('solving')
+
+a = Polynomial(1, -5, 6)
+rr = a.solve()
+print(rr)

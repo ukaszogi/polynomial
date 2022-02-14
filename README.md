@@ -2,6 +2,16 @@
 
 Polynomial class in python (w/ NumPy)
 
+- [Polynomial](#polynomial)
+  - [Normal polynomials](#normal-polynomials)
+    - [User defined polynomials](#user-defined-polynomials)
+    - [Zeroed polynomials](#zeroed-polynomials)
+  - [Abstract polynomials](#abstract-polynomials)
+  - [Polynomial solutions](#polynomial-solutions)
+    - [Interpolation](#interpolation)
+      - [Lagrange interpolation](#lagrange-interpolation)
+    - [Solving polynomials](#solving-polynomials)
+
 ## Normal polynomials
 
 - user defined
@@ -45,3 +55,18 @@ Polynomials with zeroed coefficients vector ($\vec{c}=0\Rightarrow \vec c \cdot 
 
 - interpolation
   - Lagrange interpolation
+- solving polynomials
+
+### Interpolation
+
+#### Lagrange interpolation
+
+This is pretty big. So Lagrange came up with this genius idea of [polynomial interpolation](https://en.wikipedia.org/wiki/Polynomial_interpolation):
+$$
+l_{n,i} = \prod_{j\neq i}\frac{x-x_j}{x_i-x_j} \\
+w = \sum_{i=0}^ny_il_{n,i}(x)
+$$
+
+### Solving polynomials
+
+Idea behind it is pretty simple. It's a combination of root-finding algorithm with polynomial division. This problem is hard mainly from the numeric perspective.
